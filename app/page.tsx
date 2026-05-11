@@ -29,28 +29,15 @@ export default function Home() {
   const [showPaywallModal, setShowPaywallModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [initError, setInitError] = useState<string | null>(null);
 
   // Check if user is logged in on mount
   useEffect(() => {
-    const supabaseClient = getSupabaseBrowserClient();
+    try {
+      const supabaseClient = getSupabaseBrowserClient();
 
-    // Get initial session immediately
-    supabaseClient.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        setUser({
-          id: session.user.id,
-          email: session.user.email || '',
-          created_at: session.user.created_at || new Date().toISOString(),
-        });
-      } else {
-        setUser(null);
-      }
-      setIsCheckingAuth(false);
-    });
-
-    // Listen for ALL auth state changes (login, logout, token refresh)
-    const { data: { subscription } } = supabaseClient.auth.onAuthStateChange(
-      (event, session) => {
+      // Get initial session immediately
+      supabaseClient.auth.getSession().then(({ data: { session } }) => {
         if (session?.user) {
           setUser({
             id: session.user.id,
@@ -61,11 +48,31 @@ export default function Home() {
           setUser(null);
         }
         setIsCheckingAuth(false);
-      }
-    );
+      });
 
-    // Cleanup subscription on unmount
-    return () => subscription.unsubscribe();
+      // Listen for ALL auth state changes (login, logout, token refresh)
+      const { data: { subscription } } = supabaseClient.auth.onAuthStateChange(
+        (event, session) => {
+          if (session?.user) {
+            setUser({
+              id: session.user.id,
+              email: session.user.email || '',
+              created_at: session.user.created_at || new Date().toISOString(),
+            });
+          } else {
+            setUser(null);
+          }
+          setIsCheckingAuth(false);
+        }
+      );
+
+      // Cleanup subscription on unmount
+      return () => subscription.unsubscribe();
+    } catch (err: any) {
+      console.error('Initialization error:', err);
+      setInitError(err.message || 'Failed to initialize app');
+      setIsCheckingAuth(false);
+    }
   }, []);
 
   // Handle keyboard shortcut for logout (Ctrl+L)
@@ -192,6 +199,23 @@ export default function Home() {
     return (
       <div className="flex flex-col flex-1 items-center justify-center min-h-screen">
         <div className="text-gray-400">Loading...</div>
+      </div>
+    );
+  }
+
+  if (initError) {
+    return (
+      <div className="flex flex-col flex-1 items-center justify-center min-h-screen bg-[#0a0a0a] text-white">
+        <div className="max-w-md text-center">
+          <h1 className="text-2xl font-bold text-red-500 mb-4">Initialization Error</h1>
+          <p className="text-gray-300 mb-4">{initError}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg"
+          >
+            Reload Page
+          </button>
+        </div>
       </div>
     );
   }
