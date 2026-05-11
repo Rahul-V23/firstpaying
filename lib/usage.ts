@@ -4,6 +4,7 @@
  */
 
 import { getUserAnalysisCount, checkSubscriptionStatus } from './supabase';
+import { createClient } from '@supabase/supabase-js';
 
 // Free tier limit
 const FREE_TIER_LIMIT = 2;
@@ -18,15 +19,19 @@ export interface UsageLimit {
 /**
  * Check if a user can perform an analysis
  * @param userId - The user's ID
+ * @param client - Optional authenticated Supabase client (for server-side use with RLS)
  * @returns Object with canAnalyse flag, current count, and limit
  */
-export async function checkUsageLimit(userId: string): Promise<UsageLimit> {
+export async function checkUsageLimit(
+  userId: string,
+  client?: any
+): Promise<UsageLimit> {
   try {
     // Get current analysis count
-    const count = await getUserAnalysisCount(userId);
+    const count = await getUserAnalysisCount(userId, client);
 
     // Check if user has active subscription
-    const isPaid = await checkSubscriptionStatus(userId);
+    const isPaid = await checkSubscriptionStatus(userId, client);
 
     // Paid users have unlimited analyses
     if (isPaid) {

@@ -103,11 +103,16 @@ export async function getUser(): Promise<User | null> {
 /**
  * Get the count of analyses for a user
  * @param userId - The user's ID
+ * @param client - Optional authenticated Supabase client (for server-side use with RLS)
  * @returns Count of analyses
  */
-export async function getUserAnalysisCount(userId: string): Promise<number> {
+export async function getUserAnalysisCount(
+  userId: string,
+  client?: any
+): Promise<number> {
   try {
-    const { count, error } = await supabase
+    const supabaseClient = client || supabase;
+    const { count, error } = await supabaseClient
       .from('analyses')
       .select('*', { count: 'exact', head: true })
       .eq('user_id', userId);
@@ -128,14 +133,17 @@ export async function getUserAnalysisCount(userId: string): Promise<number> {
  * Create a new analysis record
  * @param userId - The user's ID
  * @param inputText - The input text for analysis
+ * @param client - Optional authenticated Supabase client (for server-side use with RLS)
  * @returns The created analysis ID
  */
 export async function createAnalysis(
   userId: string,
-  inputText: string
+  inputText: string,
+  client?: any
 ): Promise<string> {
   try {
-    const { data, error } = await supabase
+    const supabaseClient = client || supabase;
+    const { data, error } = await supabaseClient
       .from('analyses')
       .insert([
         {
@@ -165,11 +173,16 @@ export async function createAnalysis(
 /**
  * Check subscription status for a user
  * @param userId - The user's ID
+ * @param client - Optional authenticated Supabase client (for server-side use with RLS)
  * @returns true if user has active subscription, false otherwise
  */
-export async function checkSubscriptionStatus(userId: string): Promise<boolean> {
+export async function checkSubscriptionStatus(
+  userId: string,
+  client?: any
+): Promise<boolean> {
   try {
-    const { data, error } = await supabase
+    const supabaseClient = client || supabase;
+    const { data, error } = await supabaseClient
       .from('subscriptions')
       .select('status')
       .eq('user_id', userId)

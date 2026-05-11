@@ -57,8 +57,21 @@ export async function POST(request: NextRequest) {
     }
     const userId = user.id;
 
+    // Create an authenticated Supabase client with the user's token for RLS policies
+    const authenticatedSupabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        global: {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      }
+    );
+
     // Check usage limit
-    const usageLimit = await checkUsageLimit(userId);
+    const usageLimit = await checkUsageLimit(userId, authenticatedSupabase);
     if (!usageLimit.canAnalyse) {
       return NextResponse.json(
         { error: 'paywall' },
@@ -78,10 +91,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Store analysis in database
+    // Store analysis in database using authenticated client
     let analysisId;
     try {
-      analysisId = await createAnalysis(userId, input_text);
+      analysisId = await createAnalysis(userId, input_text, authenticatedSupabase);
     } catch (error: any) {
       console.error('Database error:', error);
       return NextResponse.json(
