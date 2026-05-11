@@ -8,8 +8,8 @@ This task sets up the Supabase database with all required tables, indexes, and R
 
 ### 1. Verified Supabase Project and Credentials
 - ✅ Supabase project already created
-- ✅ Project URL: `https://czjejieyqbqkguenklnf.supabase.co`
-- ✅ Anon key: `sb_publishable_XbQqbZcIggHOANvoQZzucg_-LQq5NCI`
+- ✅ Project URL: [from your Supabase project]
+- ✅ Anon key: [from your Supabase project]
 - ✅ Credentials already in `.env.local`
 - ✅ Email/password authentication enabled (default in Supabase)
 

@@ -212,9 +212,9 @@ Expected output:
 All required variables are already in `.env.local`:
 
 ```
-NEXT_PUBLIC_SUPABASE_URL=https://czjejieyqbqkguenklnf.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_XbQqbZcIggHOANvoQZzucg_-LQq5NCI
-OPENROUTER_API_KEY=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
+NEXT_PUBLIC_SUPABASE_URL=[from your Supabase project]
+NEXT_PUBLIC_SUPABASE_ANON_KEY=[from your Supabase project]
+OPENROUTER_API_KEY=[from your OpenRouter account]
 STRIPE_SECRET_KEY=
 ```
 
