@@ -42,10 +42,16 @@ export function AuthModal({ isOpen, onClose, onAuthSuccess }: AuthModalProps) {
       const supabaseClient = getSupabaseBrowserClient();
 
       if (isSignUp) {
-        // Sign up
+        // Get the current origin for the redirect URL
+        const origin = typeof window !== 'undefined' ? window.location.origin : '';
+        
+        // Sign up with email confirmation redirect
         const { error: signUpError } = await supabaseClient.auth.signUp({
           email,
           password,
+          options: {
+            emailRedirectTo: `${origin}/auth/callback`,
+          },
         });
 
         if (signUpError) {
@@ -54,13 +60,13 @@ export function AuthModal({ isOpen, onClose, onAuthSuccess }: AuthModalProps) {
           return;
         }
 
-        // Verify session after signup
-        const { data: { session } } = await supabaseClient.auth.getSession();
-        if (!session) {
-          setError('Sign up successful, but session could not be confirmed. Please log in.');
-          setIsLoading(false);
-          return;
-        }
+        // Show success message
+        setError('');
+        setEmail('');
+        setPassword('');
+        alert('Sign up successful! Please check your email to verify your account.');
+        onClose();
+        return;
       } else {
         // Log in
         const { error: signInError } = await supabaseClient.auth.signInWithPassword({
