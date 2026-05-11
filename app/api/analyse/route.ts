@@ -82,11 +82,15 @@ export async function POST(request: NextRequest) {
     // Call OpenRouter API
     let analysisOutput;
     try {
+      console.log('Calling OpenRouter with input:', input_text.substring(0, 50));
       analysisOutput = await callOpenRouter(input_text);
+      console.log('OpenRouter response received successfully');
     } catch (error: any) {
       console.error('OpenRouter API error:', error);
+      console.error('Error message:', error.message);
+      console.error('Error status:', error.status);
       return NextResponse.json(
-        { error: 'Analysis failed. Please try again.' },
+        { error: `Analysis failed: ${error.message}` },
         { status: 500 }
       );
     }
