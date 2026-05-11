@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Validate required environment variables on app startup
+// Validate required environment variables
 function validateEnvironmentVariables() {
   const requiredVars = {
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -20,14 +20,27 @@ function validateEnvironmentVariables() {
   }
 }
 
-// Validate on module load
-validateEnvironmentVariables();
+// Lazy-initialize Supabase client (only when needed, not at module load)
+let supabaseInstance: ReturnType<typeof createClient> | null = null;
 
-// Create Supabase client
-export const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+function getSupabaseInstance() {
+  if (!supabaseInstance) {
+    validateEnvironmentVariables();
+    supabaseInstance = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
+  }
+  return supabaseInstance;
+}
+
+// Export a getter for the supabase client
+export const supabase = new Proxy({} as ReturnType<typeof createClient>, {
+  get: (target, prop) => {
+    const instance = getSupabaseInstance();
+    return (instance as any)[prop];
+  },
+});
 
 /**
  * Singleton Supabase client for use in client components

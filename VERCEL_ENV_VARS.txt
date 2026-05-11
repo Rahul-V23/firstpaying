@@ -1,0 +1,85 @@
+================================================================================
+FIRSTPAYING MVP - VERCEL ENVIRONMENT VARIABLES
+================================================================================
+
+Copy and paste these into Vercel Dashboard → Settings → Environment Variables
+
+For each variable:
+1. Click "Add New"
+2. Enter the Name
+3. Enter the Value
+4. Select: Production, Preview, Development
+5. Click "Save"
+
+================================================================================
+VARIABLE 1: NEXT_PUBLIC_SUPABASE_URL
+================================================================================
+Name:  NEXT_PUBLIC_SUPABASE_URL
+Value: https://czjejieyqbqkguenklnf.supabase.co
+
+================================================================================
+VARIABLE 2: NEXT_PUBLIC_SUPABASE_ANON_KEY
+================================================================================
+Name:  NEXT_PUBLIC_SUPABASE_ANON_KEY
+Value: sb_publishable_XbQqbZcIggHOANvoQZzucg_-LQq5NCI
+
+================================================================================
+VARIABLE 3: OPENROUTER_API_KEY
+================================================================================
+Name:  OPENROUTER_API_KEY
+Value: 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
+
+================================================================================
+VARIABLE 4: STRIPE_SECRET_KEY
+================================================================================
+Name:  STRIPE_SECRET_KEY
+Value: (leave empty for now - add later when implementing payments)
+
+================================================================================
+BUILD SETTINGS (should auto-detect)
+================================================================================
+Framework:        Next.js
+Build Command:    npm run build
+Output Directory: .next
+Install Command:  npm install
+Node.js Version:  20.x
+
+================================================================================
+DEPLOYMENT STEPS
+================================================================================
+
+1. Go to https://vercel.com/dashboard
+2. Click "Add New..." → "Project"
+3. Click "Import Git Repository"
+4. Search for "Rahul-V23/firstpaying"
+5. Click "Import"
+6. Verify build settings (should be auto-detected)
+7. Add the 4 environment variables above
+8. Click "Deploy"
+9. Wait 2-3 minutes for deployment to complete
+10. Test the live URL
+
+================================================================================
+EXPECTED DEPLOYMENT URL
+================================================================================
+
+https://firstpaying.vercel.app
+
+(Or custom domain if configured)
+
+================================================================================
+QUICK VERIFICATION CHECKLIST
+================================================================================
+
+After deployment, test:
+✓ Sign up and log in
+✓ Run first analysis (should work)
+✓ Run second analysis (should work)
+✓ Run third analysis (should show paywall)
+✓ Copy buttons work
+✓ Dark theme displays
+✓ Mobile responsive
+✓ HTTPS enabled (🔒 in URL)
+✓ No console errors
+
+================================================================================
