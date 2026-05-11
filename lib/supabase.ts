@@ -34,13 +34,15 @@ function getSupabaseInstance() {
   return supabaseInstance;
 }
 
-// Export a getter for the supabase client
-export const supabase = new Proxy({} as ReturnType<typeof createClient>, {
-  get: (target, prop) => {
-    const instance = getSupabaseInstance();
-    return (instance as any)[prop];
+// Export the supabase client (lazy-loaded)
+export const supabase = {
+  get auth() {
+    return getSupabaseInstance().auth;
   },
-});
+  get from() {
+    return getSupabaseInstance().from.bind(getSupabaseInstance());
+  },
+} as ReturnType<typeof createClient>;
 
 /**
  * Singleton Supabase client for use in client components
