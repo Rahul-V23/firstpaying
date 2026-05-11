@@ -70,9 +70,9 @@ In Vercel Dashboard, go to **Settings** → **Environment Variables** and add:
 
 | Variable | Value | Environment |
 |----------|-------|-------------|
-| `NEXT_PUBLIC_SUPABASE_URL` | `https://czjejieyqbqkguenklnf.supabase.co` | Production, Preview, Development |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `sb_publishable_XbQqbZcIggHOANvoQZzucg_-LQq5NCI` | Production, Preview, Development |
-| `OPENROUTER_API_KEY` | `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` | Production, Preview, Development |
+| `NEXT_PUBLIC_SUPABASE_URL` | `[from .env.local]` | Production, Preview, Development |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | `[from .env.local]` | Production, Preview, Development |
+| `OPENROUTER_API_KEY` | `[from .env.local]` | Production, Preview, Development |
 | `STRIPE_SECRET_KEY` | (leave empty for now) | Production |
 
 **Important**: 
@@ -150,13 +150,13 @@ Once deployment completes, verify:
 
 ### Public Variables (exposed to browser)
 ```
-NEXT_PUBLIC_SUPABASE_URL=https://czjejieyqbqkguenklnf.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_XbQqbZcIggHOANvoQZzucg_-LQq5NCI
+NEXT_PUBLIC_SUPABASE_URL=[from .env.local]
+NEXT_PUBLIC_SUPABASE_ANON_KEY=[from .env.local]
 ```
 
 ### Server-Side Variables (secure)
 ```
-OPENROUTER_API_KEY=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
+OPENROUTER_API_KEY=[from .env.local]
 STRIPE_SECRET_KEY=(add when payment integration is ready)
 ```
 

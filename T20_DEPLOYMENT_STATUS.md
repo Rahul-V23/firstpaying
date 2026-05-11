@@ -51,9 +51,9 @@
 
 | Variable | Type | Value |
 |----------|------|-------|
-| `NEXT_PUBLIC_SUPABASE_URL` | Public | `https://czjejieyqbqkguenklnf.supabase.co` |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Public | `sb_publishable_XbQqbZcIggHOANvoQZzucg_-LQq5NCI` |
-| `OPENROUTER_API_KEY` | Secret | `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` |
+| `NEXT_PUBLIC_SUPABASE_URL` | Public | `[from .env.local]` |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Public | `[from .env.local]` |
+| `OPENROUTER_API_KEY` | Secret | `[from .env.local]` |
 | `STRIPE_SECRET_KEY` | Secret | (empty - add when payment integration ready) |
 
 ### ✅ 4. Project Configuration Verified
